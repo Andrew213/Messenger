@@ -1,0 +1,37 @@
+{
+    "compilerOptions": {
+      "allowSyntheticDefaultImports": true,
+      "outDir": "dist",
+      "sourceMap": true,
+      "isolatedModules": true,
+      "target": "ES2016",
+      "allowJs": true,
+      "moduleResolution": "node",
+      "strictNullChecks": true,
+      "useDefineForClassFields": true,
+      "module": "ESNext",
+      "strict": true,
+      "resolveJsonModule": true,
+      "esModuleInterop": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "noImplicitReturns": true,
+      "lib": ["es5", "es6", "dom", "dom.iterable"],
+      "baseUrl": ".",
+      "paths": {
+        "@/*": [
+          "src/*"
+        ],
+        "@hooks": [
+          "src/hooks"
+        ],
+        "@styles/*": [
+          "src/styles/*"
+        ],
+        "@store/*": [
+          "src/store/*"
+        ]
+      },
+    },
+    "include": ["./src/**/*"]
+  }

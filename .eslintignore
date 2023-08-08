@@ -1,0 +1,6 @@
+.eslintrc.js
+ios/
+dist/
+android/
+*.config.js
+server/*
