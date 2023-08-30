@@ -1,0 +1,36 @@
+@import "@styles/theme.less";
+@import "@styles/mixins.less";
+.input {
+    padding-left: 10px;
+    border: 1px solid rgba(31, 32, 65, 0.25);
+    outline: 1px solid rgba(31, 32, 65, 0.25);
+    padding: 20px 15px;
+    height: 20px;
+    border-radius: @border-radius;
+    width: 100%;
+    &-error input {
+      border-color: red;
+      outline: 1px solid red;
+    }
+    &__errorMessage {
+      position: absolute;
+      color: red;
+      left: 0;
+      bottom: 0;
+    }
+    &:focus {
+      border-color: @purple;
+      outline: 1px solid @purple;
+      filter: drop-shadow(0px 0px 3px #bc9cff);
+    }
+  }
+  .text {
+    font-weight: 600;
+    margin-bottom: 3px;
+    color: @dark-3;
+  }
+  
+  .container {
+    position: relative;
+  }
+  

@@ -1,0 +1,74 @@
+@import "@/styles/mixins.less";
+@import "@/styles/theme.less";
+
+.alert {
+    position: fixed;
+  
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    min-width: 340px;
+    border-radius: 4px 4px 0px 0px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    animation: alert 3s;
+    animation-fill-mode: forwards;
+    z-index: 100;
+    &:before {
+      content: "";
+      width: 30px;
+      height: 30px;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    &__inner {
+      margin-left: 20px;
+    }
+  
+    &__text {
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+  }
+  
+  .success {
+    &:before {
+      background-image: url(../../assets/svg/success.svg);
+      background-repeat: no-repeat;
+    }
+    .alert__text {
+      color: @green;
+    }
+  }
+  
+  .error {
+    &:before {
+      background: url(../../assets/svg/error.svg);
+      background-repeat: no-repeat;
+    }
+  
+    & .alert__text {
+      color: @red;
+    }
+  }
+  
+  @keyframes alert {
+    0% {
+      transform: translate(-100%);
+    }
+  
+    10% {
+      transform: translate(0);
+    }
+  
+    90% {
+      transform: translate(0);
+    }
+  
+    100% {
+      transform: translate(-100%);
+    }
+  }
+  

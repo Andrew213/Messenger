@@ -30,6 +30,14 @@ export default class HTTPTransport {
         return this.request(this.endpoint + path, { ...options, method: METHOD.POST });
     }
 
+    public delete(url: string, options: OptionsWithoutMethod = {}): Promise<Response> {
+        return this.request(this.endpoint + url, { ...options, method: METHOD.DELETE });
+    }
+
+    public put<Response>(url: string, options: OptionsWithoutMethod = {}): Promise<Response> {
+        return this.request(this.endpoint + url, { ...options, method: METHOD.PUT });
+    }
+
     private request<Response>(url: string, options: OptionT = { method: METHOD.GET }): Promise<Response> {
         const { method, data, headers } = options;
         return new Promise((resolve, reject) => {

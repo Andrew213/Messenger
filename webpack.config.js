@@ -12,17 +12,23 @@ dotenv.config();
 
 const target = devMode ? 'web' : 'browserslist';
 const devtool = devMode ? 'source-map' : undefined;
+const localIdentName = devMode ? '[path][name]__[local]' : '[hash:base64]';
 
 const appDirectory = fs.realpathSync(process.cwd());
 
 module.exports = {
     mode,
-    target,
+    target: target,
     devtool,
     devServer: {
+        historyApiFallback: true,
         open: true,
+        compress: true,
+        liveReload: false,
     },
-    entry: path.resolve(__dirname, 'src', 'index.ts'),
+    entry: {
+        app: path.resolve(__dirname, 'src', 'index.ts'),
+    },
     resolve: {
         extensions: ['.ts', '.js', '.tsx', '.json'],
         alias: {
@@ -30,6 +36,8 @@ module.exports = {
             '@fonts': path.resolve(appDirectory, './public/fonts'),
             '@img': path.resolve(appDirectory, './src/img'),
             '@hooks': path.resolve(appDirectory, './src/hooks'),
+            '@block': path.resolve(appDirectory, './src/core/'),
+            '@styles': path.resolve(appDirectory, './src/styles'),
         },
     },
     output: {
@@ -43,11 +51,11 @@ module.exports = {
                 test: /\.tsx?$/,
                 use: [
                     {
-                        loader: 'esbuild-loader',
-                        options: {
-                            // JavaScript version to compile to
-                            target: 'es2015',
-                        },
+                        loader: 'ts-loader',
+                        // options: {
+                        //     // JavaScript version to compile to
+                        //     target: 'ESNEXT',
+                        // },
                     },
                 ],
                 exclude: /(node_modules)/,
@@ -57,8 +65,25 @@ module.exports = {
                 use: [
                     // compiles Less to CSS
                     devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    'less-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: {
+                                localIdentName,
+                                exportLocalsConvention: 'camelCase',
+                                auto: resourcePath => resourcePath.endsWith('.module.less'),
+                            },
+                            importLoaders: 1,
+                        },
+                    },
+                    {
+                        loader: 'less-loader',
+                        options: {
+                            lessOptions: {
+                                javascriptEnabled: true,
+                            },
+                        },
+                    },
                 ],
             },
             {

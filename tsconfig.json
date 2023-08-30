@@ -12,6 +12,7 @@
       "module": "ESNext",
       "strict": true,
       "resolveJsonModule": true,
+      "experimentalDecorators": true,
       "esModuleInterop": true,
       "noUnusedLocals": true,
       "noUnusedParameters": true,
@@ -30,6 +31,9 @@
         ],
         "@store/*": [
           "src/store/*"
+        ],
+        "@block/*": [
+          "src/core/*"
         ]
       },
     },

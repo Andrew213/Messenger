@@ -1,0 +1,41 @@
+@import "@/styles/mixins.less";
+@import "@/styles/theme.less";
+
+
+.button {
+    min-width: 120px;
+    width: 100%;
+  }
+
+
+  .default {
+    .button-mixin();
+  }
+  .denger {
+    .button-mixin("denger");
+  }
+  .primary {
+    .button-mixin("primary");
+  }
+  .link {
+    .button-mixin("link");
+    &:hover {
+      transition: all 0.3s ease;
+      background: @gradient-purple;
+      color: @white;
+    }
+  }
+  
+  [href] {
+    display: block;
+    text-decoration: none;
+    margin-bottom: 0 !important;
+  }
+  
+  .icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-40%);
+  }
+  

@@ -1,15 +1,22 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import AuthController from './controllers/AuthController';
 import './index.less';
+import SignUpPage from './pages/SignUpPage';
+import LoginPage from './pages/loginPage';
+import router from './router/Router';
 
 document.addEventListener('DOMContentLoaded', () => {
-    const foo = async () => {
-        try {
-            await AuthController.singin({ login: 'admin12345', password: 'Andrew123' });
-            console.log(`success 2`);
-        } catch (err) {
-            console.log(`err 2`);
-        }
-    };
-
-    void foo();
+    router
+        .setUnprotectedPaths(['/'])
+        .onRoute(async () => {
+            try {
+                await AuthController.fetchUser();
+                //   router.go(Routes.Messenger);
+            } catch (err) {
+                console.log(err);
+            }
+        })
+        .use('/', LoginPage)
+        .use('/sign-up', SignUpPage)
+        .start();
 });

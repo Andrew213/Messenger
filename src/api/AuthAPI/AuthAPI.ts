@@ -10,7 +10,7 @@ export default class AuthAPI extends API {
         return this.http.post('/signin', { data: JSON.stringify(data) });
     }
 
-    singup(data: ISignUpData): unknown {
+    singup(data: ISignUpData): Promise<{ id: number }> {
         return this.http.post('/signup', { data: JSON.stringify(data) });
     }
 
