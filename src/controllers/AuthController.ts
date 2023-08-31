@@ -1,7 +1,9 @@
 import AuthAPI from '@/api/AuthAPI/AuthAPI';
 import { ISignInData, ISignUpData } from '@/api/AuthAPI/interfaces';
 import alert from '@/components/alert';
+import Router from '@/router/Router';
 import store from '@/store';
+import { Routes } from '..';
 
 class AuthController {
     private api = new AuthAPI();
@@ -9,9 +11,8 @@ class AuthController {
     async singin(data: ISignInData) {
         try {
             await this.api.singin(data);
-            // Router.go(Routes.Messenger);
-            // this.fetchUser();
-
+            Router.go(Routes.ProfilePage);
+            await this.fetchUser();
             alert({ text: 'Вход выполнен', type: 'success', delay: 3000 });
         } catch (err) {
             if (err instanceof XMLHttpRequest) {
@@ -33,24 +34,23 @@ class AuthController {
         }
     }
 
-    // async logout() {
-    //     try {
-    //         await this.api.logout();
-    //         alert({ text: 'Вышли успешно', type: 'success', delay: 3000 });
-    //         router.go('/');
-    //         store.setState({ user: null });
-    //     } catch (err) {
-    //         if (err instanceof XMLHttpRequest) {
-    //             alert({ text: err.response.reason, type: 'error', delay: 3000 });
-    //         }
-    //     }
-    // }
+    async logout() {
+        try {
+            await this.api.logout();
+            alert({ text: 'Вышли успешно', type: 'success', delay: 3000 });
+            Router.go('/');
+            store.setState({ user: null });
+        } catch (err) {
+            if (err instanceof XMLHttpRequest) {
+                alert({ text: err.response.reason, type: 'error', delay: 3000 });
+            }
+        }
+    }
 
     async fetchUser() {
         try {
             const user = await this.api.getUser();
             if (user.id) {
-                alert({ text: 'Юзер в системе', type: 'success', delay: 3000 });
                 store.setState({
                     user,
                 });

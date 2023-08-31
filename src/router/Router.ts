@@ -59,7 +59,6 @@ class Router {
 
     private _onRoute(pathname: string) {
         const route = this.getRoute(pathname);
-        console.log(`route `, route);
         if (!route) {
             this.go('/404');
             return;

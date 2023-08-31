@@ -118,9 +118,7 @@ export default class Block<P extends Record<string, any> = any> {
             events?: Record<string, () => void>;
         };
         Object.keys(events).forEach(eventName => {
-            if (events[eventName]) {
-                this._element!.removeEventListener(eventName, events[eventName]);
-            }
+            this._element?.addEventListener(eventName, events[eventName]);
         });
     }
 

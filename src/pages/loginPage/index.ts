@@ -5,6 +5,8 @@ import Modal from '@/components/modal';
 import FormClass from '@/components/form';
 import Button from '@/components/button';
 import Router from '@/router/Router';
+import AuthController from '@/controllers/AuthController';
+import { ISignInData } from '@/api/AuthAPI/interfaces';
 
 class LoginInnerClass extends Block {
     protected init(): void {
@@ -19,6 +21,9 @@ class LoginInnerClass extends Block {
             classNames: 'login__btn login__btn_create',
         });
         this.children.form = new FormClass({
+            onSuccess: async (data: ISignInData) => {
+                await AuthController.singin(data);
+            },
             class: 'login__form',
             inputs: [
                 {

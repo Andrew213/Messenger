@@ -1,0 +1,67 @@
+@import "../../styles/mixins.less";
+@import "../../styles/theme.less";
+
+.profile {
+  .flex-align-vertical-mixin();
+  &__form {
+    .flex-align-vertical-mixin();
+    width: 100%;
+  }
+
+  &__title {
+    margin: 15px 0;
+    font-weight: 700;
+    font-size: 24px;
+  }
+  &__avatar {
+    position: relative;
+    background-color: transparent;
+    width: 150px;
+    height: 150px;
+    &-text {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: @white;
+      pointer-events: none;
+      opacity: 0;
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+      transition: opacity 0.3s ease;
+    }
+    &-img {
+      .wrapper-mixin(100);
+      width: 150px;
+      height: 150px;
+      transition: filter 0.3s ease;
+      &:hover {
+        filter: blur(10px);
+        cursor: pointer;
+      }
+    }
+    &-img:hover + &-text {
+      opacity: 1;
+    }
+  }
+  &__btnWrapper,
+  &__input {
+    width: 100%;
+  }
+  &__btn {
+    width: 100%;
+    &:not([type="submit"]) {
+      margin-top: 15px;
+    }
+    &_data {
+      margin-top: 0;
+    }
+  }
+  & input,
+  .inputWrapper {
+    width: 100%;
+  }
+}

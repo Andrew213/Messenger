@@ -1,0 +1,28 @@
+@import "../../../../styles/theme.less";
+.file {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+    &__title {
+      font-size: 20px;
+    }
+  
+    &__text {
+      font-size: 14px;
+      margin: 10px 0;
+      color: @blue;
+      cursor: pointer;
+    }
+    &__link {
+      color: @blue;
+      padding: 10px 0;
+    }
+  }
+  
+  #upload-photo {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+  }
+  

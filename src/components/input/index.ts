@@ -28,40 +28,6 @@ export default class Input extends Block<InputProps> {
         }
         props.value = props.value || '';
         super(props);
-
-        // this.validate = function (element: HTMLInputElement): boolean {
-        //     if (props.required && !element.value) {
-        //         console.log(12);
-        //         this.setProps({
-        //             message: 'Поле не может быть пустым',
-        //             value: element.value,
-        //         });
-        //         this.element.classList.add('input-error');
-        //         return false;
-        //     }
-
-        //     if (this.props.rules?.length) {
-        //         return this.props.rules.every(({ rule, message }) => {
-        //             if (!rule.test(element.value)) {
-        //                 this.setProps({
-        //                     message,
-        //                     value: element.value,
-        //                 });
-        //                 this.element.classList.add('input-error');
-        //                 return false;
-        //             }
-
-        //             this.setProps({
-        //                 message: '',
-        //                 value: element.value,
-        //             });
-        //             this.element.classList.remove('input-error');
-        //             return true;
-        //         });
-        //     }
-        //     this.element.classList.remove('input-error');
-        //     return true;
-        // };
     }
 
     init(): void {
