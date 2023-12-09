@@ -4,12 +4,14 @@ import './index.less';
 import ProfilePage from './pages/ProfilePage';
 import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/loginPage';
+import Router from './router/Router';
 import router from './router/Router';
 
 export enum Routes {
     LoginPage = '/',
     SignUpPage = '/sign-up',
     ProfilePage = '/profile',
+    MainPage = '/main',
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -18,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .onRoute(async () => {
             try {
                 await AuthController.fetchUser();
+                Router.go(Routes.ProfilePage);
             } catch (err) {
                 console.log(err);
             }

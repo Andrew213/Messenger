@@ -14,7 +14,7 @@ type OptionT = {
 type OptionsWithoutMethod = Omit<OptionT, 'method'>;
 
 export default class HTTPTransport {
-    static apiUrl: string = process.env.HOST_API!;
+    static apiUrl = 'https://ya-praktikum.tech/api/v2';
 
     protected endpoint: string;
 
