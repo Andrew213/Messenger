@@ -5,8 +5,9 @@ import Modal from '@/components/modal';
 import FormClass from '@/components/form';
 import Button from '@/components/button';
 import Router from '@/router/Router';
-import AuthController from '@/controllers/AuthController';
+// import AuthController from '@/controllers/AuthController';
 import { ISignInData } from '@/api/AuthAPI/interfaces';
+import AuthController from '@/controllers/AuthController';
 
 class LoginInnerClass extends Block {
     protected init(): void {
