@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import Block from '@/core/Block';
 import tmp from './tmp';
 import Modal from '@/components/modal';

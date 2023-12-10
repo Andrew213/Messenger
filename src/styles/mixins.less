@@ -17,6 +17,12 @@
     font-family: "Montserrat";
     cursor: pointer;
   }
+
+  .wrapper-mixin(@radius: 4) {
+    border-radius: ~"@{radius}px";
+    box-shadow: @shadow;
+  }
+  
   
   .flex-align-vertical-mixin() {
     display: flex;

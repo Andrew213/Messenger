@@ -1,5 +1,5 @@
 import { IUser } from '../AuthAPI/interfaces.js';
-import API from '../api.js';
+import API from '../api';
 import { IChatCreate, IChatDelete, IChatAddUser, IChatsList } from './interfaces.js';
 
 export default class ChatAPI extends API {
