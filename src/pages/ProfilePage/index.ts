@@ -179,8 +179,8 @@ class ProfilePageInner extends Block {
             type: 'denger',
             text: 'Выйти',
             events: {
-                click: () => {
-                    AuthController.logout();
+                click: async () => {
+                    await AuthController.logout();
                 },
             },
             wrapperClassName: 'profile__btnWrapper',

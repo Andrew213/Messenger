@@ -11,7 +11,7 @@ class AuthController {
     async singin(data: ISignInData) {
         try {
             await this.api.singin(data);
-            Router.go(Routes.ProfilePage);
+            Router.go(Routes.MainPage);
             await this.fetchUser();
             alert({ text: 'Вход выполнен', type: 'success', delay: 3000 });
         } catch (err) {
@@ -55,10 +55,12 @@ class AuthController {
                     user,
                 });
             }
+            return user;
         } catch (err) {
             if (err instanceof XMLHttpRequest) {
                 alert({ text: err.response.reason, type: 'error', delay: 3000 });
             }
+            return err;
         }
     }
 }

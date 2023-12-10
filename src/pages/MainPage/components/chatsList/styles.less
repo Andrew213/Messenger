@@ -1,0 +1,44 @@
+@import "../../../../styles/mixins.less";
+@import "../../../../styles/theme.less";
+
+.chatsList{
+    width: 530px;
+    background-color: #fff;
+    .wrapper-mixin();
+    position: relative;
+    overflow: hidden;
+    overflow-y: auto;
+    padding: 10px;
+    height: calc(100vh - 20px);
+    &__header {
+        padding-bottom: 10px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      &__headerInner {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+    
+      &__input {
+        margin-top: 10px;
+      }
+    
+      &__headerBtn{
+        margin-right: 50px;
+      }
+
+      &__empty {
+        width: 200px;
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%);
+      }
+      
+      &__list{
+      }
+}
