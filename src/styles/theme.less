@@ -19,6 +19,10 @@
 @placeholder-color: #red;
 @placeholder-font-weight: 300;
 
+.wrapper-mixin(@radius: 4) {
+  border-radius: ~"@{radius}px";
+  box-shadow: @shadow;
+}
 
 @border-radius: 4px;
 

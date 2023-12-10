@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { IUser } from './api/AuthAPI/interfaces';
 import AuthController from './controllers/AuthController';
 import './index.less';
-import MainPage from './pages/MainPage';
 import ProfilePage from './pages/ProfilePage';
 import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/loginPage';
@@ -21,10 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
         .setUnprotectedPaths(['/'])
         .onRoute(async () => {
             try {
-                const user = await AuthController.fetchUser();
-                if ((user as IUser).id) {
-                    Router.go(Routes.MainPage);
-                }
+                await AuthController.fetchUser();
+                Router.go(Routes.ProfilePage);
             } catch (err) {
                 console.log(err);
             }
@@ -32,6 +28,5 @@ document.addEventListener('DOMContentLoaded', () => {
         .use(Routes.LoginPage, LoginPage)
         .use(Routes.SignUpPage, SignUpPage)
         .use(Routes.ProfilePage, ProfilePage)
-        .use(Routes.MainPage, MainPage)
         .start();
 });
