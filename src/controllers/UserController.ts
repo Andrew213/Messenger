@@ -1,6 +1,6 @@
 import { IUser } from '@/api/AuthAPI/interfaces';
 import UserAPI from '@/api/UserAPI/UserAPI';
-import { IUserPut } from '@/api/UserAPI/interfaces';
+import { IUserGet, IUserPut } from '@/api/UserAPI/interfaces';
 import alert from '@/components/alert';
 import store from '@/store';
 
@@ -24,16 +24,17 @@ class UserController {
         }
     }
 
-    // async getUsersByLogin(login: string): Promise<Array<IUserGet> | undefined> {
-    //     try {
-    //         const response = await this.api.getUsersByLogin(login);
-    //         return response;
-    //     } catch (err) {
-    //         if (err instanceof XMLHttpRequest) {
-    //             alert({ text: err.response.reason, type: 'error', delay: 3000 });
-    //         }
-    //     }
-    // }
+    async getUsersByLogin(login: string): Promise<Array<IUserGet> | undefined> {
+        try {
+            const response = await this.api.getUsersByLogin(login);
+            return response;
+        } catch (err) {
+            if (err instanceof XMLHttpRequest) {
+                alert({ text: err.response.reason, type: 'error', delay: 3000 });
+            }
+            return;
+        }
+    }
 
     async changeUserProfile(data: IUserPut) {
         try {

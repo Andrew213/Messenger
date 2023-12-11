@@ -3,28 +3,30 @@ import Block from '@/core/Block';
 import tmp from './tmp';
 import FormClass from '@/components/form';
 import Button from '@/components/button';
-import UserController from '@/controllers/UserController';
+// import UserController from '@/controllers/UserController';
 
-export default class AvatarModal extends Block {
+class AvatarModal extends Block {
     protected init(): void {
         this.children.form = new FormClass({
             class: 'file__form',
-            onSuccess: async () => {
+            onSuccess({ avatar }) {
                 const formData = new FormData();
-                formData.append('avatar', this.props.file);
-                await UserController.changeAvatar(formData);
+                formData.append('avatar', avatar);
+                // UserController.changeAvatar(formData);
             },
             inputs: [
                 {
+                    wrapperClassName: 'file__link',
                     classNames: 'file__link',
 
+                    // ВЫРОВНЯТЬ ЕБУЧУЮ МОДАЛКУ ПО ЦЕНТРУ (ИННЕР)
+
                     events: {
-                        change: (e: Event) => {
+                        change: e => {
                             const el = e.target as HTMLInputElement;
                             if (el.files?.length) {
                                 this.setProps({
                                     fileName: el.files[0].name,
-                                    file: el.files[0],
                                 });
                             }
                         },
@@ -54,8 +56,8 @@ export default class AvatarModal extends Block {
             text: 'X',
             events: {
                 click: () => {
-                    const popup = document.querySelector('.loadFile');
-                    popup?.classList.remove('popup-active');
+                    const popup = document.querySelector('.loadFile') as HTMLElement;
+                    popup.classList.remove('popup-active');
                 },
             },
         });
@@ -76,3 +78,5 @@ export default class AvatarModal extends Block {
         return this.compile(tmp, this.props);
     }
 }
+
+export default AvatarModal;

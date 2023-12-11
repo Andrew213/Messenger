@@ -12,8 +12,8 @@ import { ISignUpData } from '@/api/AuthAPI/interfaces';
 class SignUpPageInner extends Block {
     protected init(): void {
         this.children.form = new FormClass({
-            async onSuccess(data: ISignUpData) {
-                await AuthController.singup(data);
+            onSuccess(data: ISignUpData) {
+                void AuthController.singup(data);
             },
             class: 'registration__form',
             inputs: [
@@ -188,7 +188,7 @@ class SignUpPageInner extends Block {
 export default class SignUpPage extends Block {
     protected init(): void {
         this.children.signupInner = new Modal({
-            children: new SignUpPageInner(),
+            children: new SignUpPageInner({}),
         });
     }
     protected render() {

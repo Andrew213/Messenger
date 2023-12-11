@@ -1,0 +1,47 @@
+@import "@styles/theme.less";
+@import "@styles/mixins.less";
+
+
+.contextMenu {
+    position: absolute;
+    z-index: 1;
+    &__list {
+      display: flex;
+      flex-direction: column;
+      list-style-type: none;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgb(64 64 64 / 5%);
+      padding: 10px 0;
+      .wrapper-mixin();
+    }
+  
+    &__btn {
+      font: inherit;
+      display: block;
+      background-color: transparent;
+      border: 0;
+      padding: 10px 30px 10px 15px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      position: relative;
+      text-decoration: unset;
+      color: #000;
+      font-weight: 500;
+      transition: 0.2s linear;
+      cursor: pointer;
+      -moz-transition: 0.2s linear;
+      -ms-transition: 0.2s linear;
+      -o-transition: 0.2s linear;
+      &:hover {
+        background: #f1f3f7;
+        color: @purple;
+      }
+  
+      &-delete:hover {
+        color: @red;
+      }
+    }
+
+  }

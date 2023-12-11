@@ -4,18 +4,29 @@ import Block from '@/core/Block';
 import { avatarTmp, tmp } from './tmp';
 import Button from '@/components/button';
 import store from '@/store';
-import defaultAva from '../../assets/svg/defaultAva.svg';
 import Popup from '@/components/popup';
-import loadFileModal from './components/avaModal';
 import AvatarModal from './components/avaModal';
 import FormClass, { FormProps } from '@/components/form';
 import Router from '@/router/Router';
 import AuthController from '@/controllers/AuthController';
 import { IUser } from '@/api/AuthAPI/interfaces';
-import UserController from '@/controllers/UserController';
-import { IUserPut } from '@/api/UserAPI/interfaces';
+import ic from '@/assets/svg/defaultAva.svg';
+interface ProfileProps {
+    loadfileModal?: Block;
+    wrapperClassName?: string;
+    display_name?: string;
+    src?: string;
+}
 
-class AvatarButton extends Block<{ src: string }> {
+interface FileBtnProps {
+    src: string;
+}
+
+class FileBtn extends Block<FileBtnProps> {
+    protected render() {
+        return this.compile(avatarTmp, this.props);
+    }
+
     componentDidMount(): void {
         store.subscribe(state => {
             if (state.user?.avatar) {
@@ -25,21 +36,22 @@ class AvatarButton extends Block<{ src: string }> {
             }
         });
     }
-
-    protected render(): DocumentFragment {
-        return this.compile(avatarTmp, this.props);
-    }
 }
 
-class ProfilePageInner extends Block {
-    protected init(): void {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        AuthController.fetchUser();
+class ProfilePageClass extends Block<ProfileProps> {
+    avatarUrl = ic;
+
+    init(): void {
+        void AuthController.fetchUser();
+        this.setProps({
+            src: ic,
+        });
+
         this.children.form = new FormClass({
             class: 'profile__form',
-            async onSuccess(data: IUserPut) {
-                await UserController.changeUserProfile(data);
-            },
+            // onSuccess(data) {
+            //     UserController.changeUserProfile(data as IUserPut);
+            // },
             inputs: [
                 {
                     classNames: 'profile__input',
@@ -136,7 +148,7 @@ class ProfilePageInner extends Block {
                     label: 'Телефон',
                     rules: [
                         {
-                            rule: /^((8|\+7)[- ]?)?(\(?\d{3}\)?[- ]?)?[\d\- ]{7,10}$/,
+                            rule: /^\+?\d{10,15}$/,
                             message: '10-15 цифр',
                         },
                     ],
@@ -152,23 +164,7 @@ class ProfilePageInner extends Block {
                 },
             }),
         });
-        this.children.avatarModal = new Popup({
-            children: new Modal({
-                children: new AvatarModal(),
-            }),
-            className: 'loadFile',
-        });
-        this.children.buttonAva = new Button({
-            type: 'none',
-            classNames: 'profile__avatar',
-            children: new AvatarButton({ src: defaultAva }),
-            events: {
-                click: () => {
-                    const popup = document.querySelector('.loadFile');
-                    popup?.classList.add('popup-active');
-                },
-            },
-        });
+
         this.children.buttonChangePass = new Button({
             type: 'default',
             text: 'Изменить пароль',
@@ -179,8 +175,8 @@ class ProfilePageInner extends Block {
             type: 'denger',
             text: 'Выйти',
             events: {
-                click: async () => {
-                    await AuthController.logout();
+                click: () => {
+                    void AuthController.logout();
                 },
             },
             wrapperClassName: 'profile__btnWrapper',
@@ -198,17 +194,29 @@ class ProfilePageInner extends Block {
             wrapperClassName: 'profile__btnWrapper',
             classNames: 'profile__btn profile__btn_back',
         });
+
+        this.children.buttonAva = new Button({
+            type: 'none',
+            classNames: 'profile__avatar',
+            children: new FileBtn({ src: ic }),
+            events: {
+                click: () => {
+                    const popup = document.querySelector('.loadFile') as HTMLElement;
+                    popup.classList.add('popup-active');
+                },
+            },
+        });
     }
 
-    protected componentDidMount(): void {
+    componentDidMount(): void {
         store.subscribe(state => {
             (this.children.form as Block<FormProps>).props.inputs.forEach(({ name }) => {
                 if (state.user) {
                     this.setProps({
                         display_name: state.user.display_name || state.user.first_name,
                     });
-
                     const currentEl = this.getContent()!.querySelector(`[name='${name}']`) as HTMLInputElement;
+
                     if (currentEl) {
                         currentEl.value = state.user[name as keyof Omit<IUser, 'id'>];
                     }
@@ -217,22 +225,26 @@ class ProfilePageInner extends Block {
         });
     }
 
-    protected render(): DocumentFragment {
+    protected render() {
         return this.compile(tmp, this.props);
     }
 }
 
 export default class ProfilePage extends Block {
     protected init(): void {
-        this.children.profilePageInner = new Modal({
-            children: new ProfilePageInner(),
-            avatarModal: new Modal({
-                children: new loadFileModal(),
+        this.children.render = new Modal({
+            children: new ProfilePageClass({}),
+            loadfileModal: new Popup({
+                children: new Modal({
+                    children: new AvatarModal({}),
+                }),
+                className: 'loadFile',
             }),
             // changePassModal: changePassPopup,
         });
     }
-    protected render(): DocumentFragment {
-        return this.compile(`{{{profilePageInner}}}`, this.props);
+
+    protected render() {
+        return this.compile(`{{{render}}}`, this.props);
     }
 }

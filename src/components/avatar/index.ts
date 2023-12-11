@@ -10,6 +10,7 @@ interface IUserAva {
 }
 
 export const getUserAva = (url?: string) => {
+    console.log(`url `, url);
     return url ? `https://ya-praktikum.tech/api/v2/resources${url}` : noAva;
 };
 
@@ -22,8 +23,8 @@ export default class UserAva extends Block<IUserAva> {
                 this.props.url
             )}" alt="аватарка юзера" >`,
             events: {
-                click: (e: MouseEvent) => {
-                    this.props.onClick && this.props.onClick(e);
+                click: e => {
+                    this.props.onClick && this.props.onClick(e as MouseEvent);
                 },
             },
         });

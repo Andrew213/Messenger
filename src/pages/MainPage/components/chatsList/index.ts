@@ -1,27 +1,42 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import Block from '@/core/Block';
 import tmp from './tmp';
 import Button from '@/components/button';
 import store from '@/store';
 import Router from '@/router/Router';
-import { Routes } from '@/index';
 import UserAva from '@/components/avatar';
 import Input from '@/components/input';
 import ChatsController from '@/controllers/ChatsController';
 import Chat from '../chat';
+import AuthController from '@/controllers/AuthController';
 
-export default class ChatsList extends Block {
+export default class Chats extends Block {
     protected init(): void {
         this.children.btnAddChat = new Button({
-            type: 'primary',
+            type: 'link',
             text: 'Добавить чат',
-            classNames: 'chatsList__headerBtn',
             events: {
                 click: () => {
-                    console.log(123);
+                    const popup = document.querySelector('.addChat') as HTMLElement;
+                    popup.classList.add('popup-active');
                 },
             },
         });
+        // this.children.addChatPopup = new Popup({
+        //     children: new Modal({ children: new AddChatClass({}) }),
+        //     className: 'addChat',
+        // });
+
+        // this.children.addUserPopup = new Popup({
+        //     children: new Modal({ children: new AddUserClass({}) }),
+        //     className: 'addUser',
+        // });
+
+        // this.children.deleteUserPopup = new Popup({
+        //     children: new Modal({ children: new DeleteUserPopup({}) }),
+        //     className: 'users',
+        // });
 
         this.children.inputSearch = new Input({
             classNames: 'chatsList__input',
@@ -31,26 +46,42 @@ export default class ChatsList extends Block {
         });
     }
 
-    protected async componentDidMount() {
-        await ChatsController.getChatsList();
+    protected componentDidMount(): void {
+        ChatsController.getChatsList();
+        AuthController.fetchUser();
+
         store.subscribe(state => {
-            console.log(`state `, state);
             this.children.profileBtn = new UserAva({
                 url: store.state.user?.avatar || '',
                 onClick: () => {
-                    Router.go(Routes.ProfilePage);
+                    Router.go('/settings');
                 },
             });
 
+            // this.children.profileBtn = new Button({
+            //   type: "none",
+            //   classNames: "chats__profileBtn",
+            //   // children: `<img class="chats__profileImg" src="${avatar}" alt="аватарка юзера" >`,
+            //   events: {
+            //     click: () => {
+            //       router.go("/settings");
+            //     },
+            //   },
+            // });
             if (state.chatsList?.length) {
                 this.setProps({
                     show: true,
                     chatsList: state.chatsList.map(chat => new Chat(chat)),
                 });
+            } else {
+                this.setProps({
+                    show: false,
+                });
             }
         });
     }
-    render() {
+
+    protected render() {
         return this.compile(tmp, this.props);
     }
 }
