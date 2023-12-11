@@ -8,22 +8,24 @@ export interface FormProps {
     class: string;
     inputs: InputProps[];
     btnSubmit?: Block<ButtonProps>;
-    onSuccess?: (data: unknown) => void;
-    events: any;
+    // wrapperClassName: string;
+    onSuccess?: (data: any) => void;
 }
 
-export default class FormClass extends Block<FormProps> {
-    init(): void {
-        if (this.props.inputs?.length) {
-            this.children.inputs = this.props?.inputs?.map((inp: InputProps) => new Input(inp));
-        }
+export default class FormClass extends Block {
+    constructor(props: FormProps) {
+        super(props, 'div');
+    }
 
+    init(): void {
+        this.children.inputs = this.props.inputs.map((inp: InputProps) => new Input(inp));
         this.setProps({
             events: {
                 submit: this.submit.bind(this),
             },
         });
     }
+
     submit(e: Event) {
         e.preventDefault();
 
@@ -51,7 +53,6 @@ export default class FormClass extends Block<FormProps> {
                             return false;
                         }
                     }
-
                     return inputInstance.validate(currentInputEl);
                 }
 
@@ -67,6 +68,7 @@ export default class FormClass extends Block<FormProps> {
             }
         }
     }
+
     render() {
         return this.compile(formTmp, this.props);
     }

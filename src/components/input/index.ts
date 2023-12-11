@@ -18,7 +18,7 @@ export interface InputProps {
 }
 
 export default class Input extends Block<InputProps> {
-    // validate: (element: HTMLInputElement) => void;
+    validate: (element: HTMLInputElement) => void;
 
     constructor(props: InputProps) {
         if (props.inputProps) {
@@ -28,54 +28,58 @@ export default class Input extends Block<InputProps> {
         }
         props.value = props.value || '';
         super(props);
+
+        this.validate = function (element: HTMLInputElement): boolean {
+            if (props.required && !element.value) {
+                this.setProps({
+                    message: 'Поле не может быть пустым',
+                    value: element.value,
+                });
+                this.element.classList.add('input-error');
+                return false;
+            }
+
+            if (this.props.rules?.length) {
+                return this.props.rules.every(({ rule, message }) => {
+                    if (!rule.test(element.value)) {
+                        this.setProps({
+                            message,
+                            value: element.value,
+                        });
+                        this.element.classList.add('input-error');
+                        return false;
+                    }
+
+                    this.setProps({
+                        message: '',
+                        value: element.value,
+                    });
+                    this.element.classList.remove('input-error');
+                    return true;
+                });
+            }
+            // this.setProps({
+            //   // message: "",
+            //   // value: element.files,
+            // });
+            this.element.classList.remove('input-error');
+            return true;
+        };
     }
+
+    protected componentDidMount(): void {}
 
     init(): void {
         this.setProps({
             events: {
-                focusout: this.validate.bind(this),
+                focusout: this.focusout.bind(this),
             },
         });
     }
 
-    protected validate(e: Event | HTMLInputElement): boolean {
-        let element = e as HTMLInputElement;
-        if ('target' in e) {
-            element = e.target as HTMLInputElement;
-        }
-        // const element = e.target as HTMLInputElement;
-        if (this.props.required && !element.value) {
-            this.setProps({
-                message: 'Поле не может быть пустым',
-                value: element.value,
-            });
-            this.element.classList.add('input-error');
-            return false;
-        }
-
-        if (this.props.rules?.length) {
-            return this.props.rules.every(({ rule, message }) => {
-                if (!rule.test(element.value)) {
-                    this.setProps({
-                        message,
-                        value: element.value,
-                    });
-                    this.element.classList.add('input-error');
-                    return false;
-                }
-                this.setProps({
-                    message: '',
-                    value: element.value,
-                });
-                return true;
-            });
-        }
-
-        this.setProps({
-            message: '',
-            value: element.value,
-        });
-        return true;
+    focusout(e: Event) {
+        const element = e.target as HTMLInputElement;
+        this.validate(element);
     }
 
     protected render() {

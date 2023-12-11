@@ -1,52 +1,58 @@
 import Block from '@/core/Block';
 
+function isEqual(lhs: string, rhs: string) {
+    return lhs === rhs;
+}
+
+function render(query: string, block: Block) {
+    const root = document.querySelector(query);
+    if (root) {
+        root.append(block.getContent() as any);
+        return root;
+    }
+    return false;
+}
+
 export default class Route {
-    public pathname = '';
+    public _pathname = '';
 
-    public view: typeof Block;
+    public _blockClass: typeof Block;
 
-    public block: Block | null = null;
+    public _block: Block | null = null;
 
-    public props: Record<string, any>;
+    public _props: any;
 
-    constructor(pathname: string, view: typeof Block, props: Record<string, any>) {
-        this.pathname = pathname;
-        this.view = view;
-        this.props = props;
-        this.block = null;
+    constructor(pathname: string, view: typeof Block, props?: unknown) {
+        this._pathname = pathname;
+        this._blockClass = view;
+        this._block = null;
+        this._props = props;
     }
 
-    get getPathname(): string {
-        return this.pathname;
+    get pathname() {
+        return this._pathname;
     }
 
-    public navigate(newPathname: string) {
-        if (newPathname === this.pathname) {
-            this.pathname = newPathname;
+    public navigate(pathname: string): void {
+        if (this.match(pathname)) {
+            this._pathname = pathname;
             this.render();
         }
     }
 
-    public render() {
-        this.block = new this.view();
-
-        //Причина всех причин, начало всех начал
-        const root = document.querySelector('#app');
-        const content = this.block.getContent() as HTMLElement;
-        if (root) {
-            root.append(content);
-            return root;
+    public leave(): void {
+        if (this._block) {
+            this._block.hide();
         }
-        return false;
     }
 
     public match(pathname: string): boolean {
-        return pathname === this.pathname;
+        return isEqual(pathname, this._pathname);
     }
 
-    public leave() {
-        if (this.block) {
-            this.block.hide();
-        }
+    public render(): void {
+        this._block = new this._blockClass({});
+
+        render(this._props.rootQuery, this._block);
     }
 }
