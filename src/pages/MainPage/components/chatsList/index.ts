@@ -10,6 +10,10 @@ import Input from '@/components/input';
 import ChatsController from '@/controllers/ChatsController';
 import Chat from '../chat';
 import AuthController from '@/controllers/AuthController';
+import Popup from '@/components/popup';
+import Modal from '@/components/modal';
+import AddUserClass from '../addUserPopup';
+import DeleteUserPopup from '../deleteUserPopup';
 
 export default class Chats extends Block {
     protected init(): void {
@@ -28,15 +32,15 @@ export default class Chats extends Block {
         //     className: 'addChat',
         // });
 
-        // this.children.addUserPopup = new Popup({
-        //     children: new Modal({ children: new AddUserClass({}) }),
-        //     className: 'addUser',
-        // });
+        this.children.addUserPopup = new Popup({
+            children: new Modal({ children: new AddUserClass({}) }),
+            className: 'addUser',
+        });
 
-        // this.children.deleteUserPopup = new Popup({
-        //     children: new Modal({ children: new DeleteUserPopup({}) }),
-        //     className: 'users',
-        // });
+        this.children.deleteUserPopup = new Popup({
+            children: new Modal({ children: new DeleteUserPopup({}) }),
+            className: 'users',
+        });
 
         this.children.inputSearch = new Input({
             classNames: 'chatsList__input',

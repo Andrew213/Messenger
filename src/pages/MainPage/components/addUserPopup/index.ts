@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import Button from '@/components/button';
 import Dropdown from '@/components/dropDown';
 import UserController from '@/controllers/UserController';
 import Block from '@/core/Block';
 import { selectOptionTmp, tmp, userOptionTmp } from './tmp';
 import { IUser } from '@/api/AuthAPI/interfaces';
+import ChatsController from '@/controllers/ChatsController';
+import store from '@/store';
 
 class UserOption extends Block {
     protected render() {
@@ -28,12 +31,12 @@ class UserOptionClass extends Block<IUserOptions> {
                 click: () => {
                     (document.querySelector('.dropdown__input')?.querySelector('.input') as HTMLInputElement).value =
                         '';
-                    // const popup = document.querySelector('.dropdown__list');
-                    // popup.classList.remove('active');
-                    // ChatController.addUsersToChat({
-                    //     users: [this.props.id],
-                    //     chatId: store.state.currentChatId as number,
-                    // });
+                    const popup = document.querySelector('.dropdown__list') as HTMLElement;
+                    popup.classList.remove('active');
+                    ChatsController.addUsersToChat({
+                        users: [this.props.id],
+                        chatId: store.state.currentChatId as number,
+                    });
                 },
             },
         });
@@ -62,9 +65,9 @@ export default class AddUserClass extends Block {
                         users: [],
                     });
                 }
-                // if (this.getContent()!.querySelector('.input')) {
-                //     (this.getContent()!.querySelector('.input') as HTMLInputElement).focus();
-                // }
+                if (this.getContent()!.querySelector('.input')) {
+                    (this.getContent()!.querySelector('.input') as HTMLInputElement).focus();
+                }
             },
         });
         this.children.btnClose = new Button({

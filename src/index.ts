@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     Router.go(Routes.MainPage);
                 }
             } catch (err) {
+                console.log(123);
                 console.log(err);
             }
         })
