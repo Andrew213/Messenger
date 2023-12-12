@@ -4,6 +4,7 @@ import tmp from './tmp';
 import store from '@/store';
 import ContextMenu from '@/components/contextMenu';
 import Button from '@/components/button';
+import ChatsController from '@/controllers/ChatsController';
 
 interface ChatProps extends IChat {
     onClick?: (chtId: number) => void;
@@ -32,6 +33,17 @@ export default class Chat extends Block {
                     allContextMenus.forEach(el => {
                         (el as HTMLElement).style.display = 'none';
                     });
+
+                    document.addEventListener('click', e => {
+                        // при клике в любом месте окна браузера
+                        const target = e.target as HTMLElement; // находим элемент, на котором был клик
+                        if (!target.closest('.contextMenu')) {
+                            allContextMenus.forEach(el => {
+                                (el as HTMLElement).style.display = 'none';
+                            });
+                        }
+                    });
+
                     (element.children[1] as HTMLElement).style.display = 'block';
                 },
             },
@@ -57,6 +69,36 @@ export default class Chat extends Block {
                             store.setState({
                                 currentChatId: this.props.id,
                             });
+                        },
+                    },
+                }),
+                new Button({
+                    type: 'none',
+                    classNames: 'contextMenu__btn contextMenu__btn-deleteUser',
+                    text: 'Удалить пользователя',
+                    events: {
+                        click: e => {
+                            e.stopPropagation();
+                            const allContextMenus = document.querySelectorAll('.contextMenu');
+                            allContextMenus.forEach(el => {
+                                (el as HTMLElement).style.display = 'none';
+                            });
+                            const popup = document.querySelector('.users') as HTMLDivElement;
+                            popup.classList.add('popup-active');
+                            store.setState({
+                                currentChatId: this.props.id,
+                            });
+                        },
+                    },
+                }),
+                new Button({
+                    type: 'none',
+                    classNames: 'contextMenu__btn contextMenu__btn-delete',
+                    text: 'Удалить чат',
+                    events: {
+                        click: e => {
+                            e.stopPropagation();
+                            ChatsController.delete({ chatId: this.props.id });
                         },
                     },
                 }),
