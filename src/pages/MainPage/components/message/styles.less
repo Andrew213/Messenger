@@ -1,0 +1,45 @@
+@import "@/styles/mixins.less";
+@import "@/styles/theme.less";
+
+
+.message {
+    margin-bottom: 10px;
+    &-to {
+      align-self: flex-end;
+    }
+    &__inner {
+      background-color: @white;
+      display: inline-block;
+      position: relative;
+      padding: 10px;
+      max-width: 340px;
+      &-from {
+        border-radius: 0% 8px 8px 8px;
+      }
+      &-to {
+        border-radius: 8px 0 8px 8px;
+      }
+    }
+  
+    &__text {
+      word-break: break-all;
+    }
+  
+    &-img img {
+      width: 220px;
+      height: 220px;
+    }
+  
+    &__date {
+      color: @dark-3;
+      font-size: 12px;
+      position: absolute;
+      top: 0;
+      &-from {
+        left: -40px;
+      }
+      &-to {
+        right: -40px;
+      }
+    }
+  }

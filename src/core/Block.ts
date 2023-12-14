@@ -125,12 +125,12 @@ export default class Block<P extends Record<string, any> = any> {
         const response = !isEqual(oldProps, newProps);
 
         if (response) {
-            this.componentDidUpdate(oldProps, newProps);
+            this.componentDidUpdate();
             this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
         }
     }
 
-    public componentDidUpdate(_oldProps: P, _newProps: P) {}
+    public componentDidUpdate() {}
 
     setProps = (nextProps: P) => {
         if (!nextProps) {
