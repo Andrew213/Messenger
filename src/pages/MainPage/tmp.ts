@@ -1,4 +1,4 @@
-import getImageUrl from '@/utils/getImg';
+import ic from '@/assets/svg/empty.svg';
 import './styles.less';
 
 const tmp = `
@@ -24,7 +24,7 @@ const tmp = `
                   {{{this}}}
               {{/each}}
          {{else}}
-            <img  class="chats__empty" src=${getImageUrl('empty.svg')}  width="57">
+            <img  class="chats__empty" src=${ic}  width="57">
           {{/if}}
 
             </div>

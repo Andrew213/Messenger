@@ -58,20 +58,9 @@ export default class Chats extends Block {
             this.children.profileBtn = new UserAva({
                 url: store.state.user?.avatar || '',
                 onClick: () => {
-                    Router.go('/settings');
+                    Router.go('/profile');
                 },
             });
-
-            // this.children.profileBtn = new Button({
-            //   type: "none",
-            //   classNames: "chats__profileBtn",
-            //   // children: `<img class="chats__profileImg" src="${avatar}" alt="аватарка юзера" >`,
-            //   events: {
-            //     click: () => {
-            //       router.go("/settings");
-            //     },
-            //   },
-            // });
             if (state.chatsList?.length) {
                 this.setProps({
                     show: true,

@@ -28,15 +28,19 @@ class UserOptionClass extends Block<IUserOptions> {
             type: 'none',
             children: new UserOption(this.props),
             events: {
-                click: () => {
+                click: async () => {
                     (document.querySelector('.dropdown__input')?.querySelector('.input') as HTMLInputElement).value =
                         '';
                     const popup = document.querySelector('.dropdown__list') as HTMLElement;
                     popup.classList.remove('active');
-                    ChatsController.addUsersToChat({
+                    await ChatsController.addUsersToChat({
                         users: [this.props.id],
                         chatId: store.state.currentChatId as number,
                     });
+                    if (store.state.currentChatId) {
+                        const chatsUsers = (await ChatsController.getChatUsers(store.state.currentChatId)) as IUser[];
+                        store.setState({ chatsUsers });
+                    }
                 },
             },
         });

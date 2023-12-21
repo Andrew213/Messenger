@@ -9,6 +9,10 @@ class ChatsController {
     public async getChatsList() {
         try {
             const chatsList = await this.api.getChatsList();
+
+            // await new Promise(resolve => setTimeout(resolve, 1500));
+            // this.getChatsList();
+
             store.setState({
                 chatsList,
             });
@@ -63,6 +67,20 @@ class ChatsController {
             const popup = document.querySelector('.users') as HTMLDivElement;
             popup.classList.remove('popup-active');
             await this.getChatsList();
+        } catch (err) {
+            if (err instanceof XMLHttpRequest) {
+                alert({ text: err.response.reason, type: 'error', delay: 3000 });
+            }
+        }
+    }
+
+    public async requestMessageToken(chatId: number) {
+        try {
+            const { token } = await this.api.requestMessageToken(chatId);
+            store.setState({
+                chatToken: token,
+                currentChatId: chatId,
+            });
         } catch (err) {
             if (err instanceof XMLHttpRequest) {
                 alert({ text: err.response.reason, type: 'error', delay: 3000 });

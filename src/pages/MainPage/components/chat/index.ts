@@ -5,6 +5,8 @@ import store from '@/store';
 import ContextMenu from '@/components/contextMenu';
 import Button from '@/components/button';
 import ChatsController from '@/controllers/ChatsController';
+import MessageController from '@/controllers/MessageController';
+import { IUser } from '@/api/AuthAPI/interfaces';
 
 interface ChatProps extends IChat {
     onClick?: (chtId: number) => void;
@@ -45,6 +47,20 @@ export default class Chat extends Block {
                     });
 
                     (element.children[1] as HTMLElement).style.display = 'block';
+                },
+                click: async () => {
+                    MessageController.leave();
+                    await ChatsController.requestMessageToken(props.id);
+                    const chatsUsers = (await ChatsController.getChatUsers(props.id)) as IUser[];
+                    store.setState({ messages: [], chatsUsers });
+
+                    if (store.state.user?.id && store.state.chatToken) {
+                        MessageController.connect({
+                            userId: store.state.user.id,
+                            chatId: props.id,
+                            token: store.state.chatToken,
+                        });
+                    }
                 },
             },
         });

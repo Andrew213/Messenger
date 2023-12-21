@@ -10,7 +10,6 @@ interface IUserAva {
 }
 
 export const getUserAva = (url?: string) => {
-    console.log(`url `, url);
     return url ? `https://ya-praktikum.tech/api/v2/resources${url}` : noAva;
 };
 

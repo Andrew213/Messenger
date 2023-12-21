@@ -12,6 +12,7 @@ export interface State {
     messages?: IMessage[];
     currentChatId?: number;
     usersSearch?: IUser[] | [];
+    chatsUsers?: IUser[];
 }
 
 export enum StoreEvent {
