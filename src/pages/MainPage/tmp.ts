@@ -5,6 +5,7 @@ const tmp = `
    <div class="wrapper">
     <main class="main">
       {{{chatsList}}}
+      {{#if currentChatId}}
     <div class="main__chat">
       <div class="main__header">
         <span class="main__text">Участники чата:</span>
@@ -34,6 +35,9 @@ const tmp = `
             </div>
         
         </div>
+        {{else}}
+        <img  class="main__empty" src=${ic}  width="157">
+        {{/if}}
     </main>
    </div> 
 `;
